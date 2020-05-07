@@ -12,9 +12,8 @@ class ListBooks extends Component {
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
-            {
-              Object.keys(shelves).map((shelf_name) => (
-                <div id={shelf_name}>
+            {Object.keys(shelves).map((shelf_name) => (
+                <div key={shelf_name}>
                   <BookShelf shelf_name={shelf_name} books={shelves[shelf_name]}/>
                 </div>
               ))
