@@ -8,7 +8,7 @@ import SearchBooks from './SearchBooks'
 
 class BooksApp extends React.Component {
   state = {
-    shelves: []
+    shelves: {}
   }
 
   componentDidMount() {
@@ -28,13 +28,28 @@ class BooksApp extends React.Component {
     })
   }
 
+  bookUpdate = (book, newShelf) => {
+    const bookShelf = book.shelf
+    book.shelf = newShelf !== "none" ? newShelf : undefined
+    BooksAPI.update(book, newShelf)
+    this.setState((currentState) => ({
+      shelves: {
+        ...currentState.shelves,
+        [bookShelf]: currentState.shelves[bookShelf].filter(b => b.id !== book.id),
+        [newShelf]: newShelf === "none" ? [...currentState.shelves[newShelf]] : [...currentState.shelves[newShelf], book]
+      }
+    }))
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
-          <ListBooks shelves={this.state.shelves} />
+          <ListBooks shelves={this.state.shelves} bookUpdate={this.bookUpdate}/>
         )} />
-        <Route path='/search' component={SearchBooks}/>
+        <Route path='/search' render={() => (
+          <SearchBooks/>
+        )}/>
       </div>
     )
   }
