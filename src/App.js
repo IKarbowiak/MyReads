@@ -9,42 +9,42 @@ import SearchBooks from './SearchBooks'
 class BooksApp extends React.Component {
   state = {
     shelves: {}
-  }
+  };
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       const shelves = {};
       books.forEach(book => {
         if (book.shelf in shelves){
-          shelves[book.shelf].push(book)
+          shelves[book.shelf].push(book);
         } else {
-          shelves[book.shelf] = [book]
+          shelves[book.shelf] = [book];
         }
       });
       this.setState(() => ({
         shelves
-      }))
+      }));
     })
   }
 
   bookUpdate = (book, newShelf) => {
-    const bookShelf = book.shelf
-    book.shelf = newShelf !== "none" ? newShelf : undefined
-    BooksAPI.update(book, newShelf)
+    const bookShelf = book.shelf;
+    book.shelf = newShelf !== "none" ? newShelf : undefined;
+    BooksAPI.update(book, newShelf);
     if (newShelf === "none") {
       this.setState(currentState => ({
         shelves: {
           ...currentState.shelves,
           [bookShelf]: currentState.shelves[bookShelf].filter(b => b.id !== book.id)
         }
-      }))
+      }));
     } else if (bookShelf === undefined) {
       this.setState(currentState => ({
         shelves: {
           ...currentState.shelves,
           [newShelf]: [...currentState.shelves[newShelf], book]
         }
-      }))
+      }));
     } else {
       this.setState(currentState => ({
         shelves: {
@@ -52,9 +52,9 @@ class BooksApp extends React.Component {
           [bookShelf]: currentState.shelves[bookShelf].filter(b => b.id !== book.id),
           [newShelf]: [...currentState.shelves[newShelf], book]
         }
-      }))
+      }));
     }
-  }
+  };
 
   render() {
     return (

@@ -6,20 +6,20 @@ class Book extends Component {
   static propTypes = {
     book: PropTypes.object.isRequired,
     bookUpdate: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     value: this.props.book.shelf || "none"
-  }
+  };
 
   handleChange = (event) => {
-    event.preventDefault()
-    const value = event.target.value
-    this.props.bookUpdate(this.props.book, value)
+    event.preventDefault();
+    const value = event.target.value;
+    this.props.bookUpdate(this.props.book, value);
     this.setState({
       value: value
-    })
-  }
+    });
+  };
 
   render() {
     const {book} = this.props

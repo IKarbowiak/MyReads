@@ -9,12 +9,12 @@ class SearchBooks extends Component {
   static propTypes = {
     bookUpdate: PropTypes.func.isRequired,
     shelves: PropTypes.object.isRequired,
-  }
+  };
 
   state = {
     searchValue: "",
     books: []
-  }
+  };
 
   searchHandler = (event) => {
     const value = event.target.value

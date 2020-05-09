@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 
 const ListBooks = (props) => {
-  const {shelves, bookUpdate} = props
+  const {shelves, bookUpdate} = props;
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -33,6 +33,6 @@ const ListBooks = (props) => {
 ListBooks.propTypes = {
   shelves: PropTypes.object.isRequired,
   bookUpdate: PropTypes.func.isRequired
-}
+};
 
 export default ListBooks
