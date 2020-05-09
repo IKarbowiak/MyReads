@@ -32,13 +32,29 @@ class BooksApp extends React.Component {
     const bookShelf = book.shelf
     book.shelf = newShelf !== "none" ? newShelf : undefined
     BooksAPI.update(book, newShelf)
-    this.setState((currentState) => ({
-      shelves: {
-        ...currentState.shelves,
-        [bookShelf]: currentState.shelves[bookShelf].filter(b => b.id !== book.id),
-        [newShelf]: newShelf === "none" ? [...currentState.shelves[newShelf]] : [...currentState.shelves[newShelf], book]
-      }
-    }))
+    if (newShelf === "none") {
+      this.setState(currentState => ({
+        shelves: {
+          ...currentState.shelves,
+          [bookShelf]: currentState.shelves[bookShelf].filter(b => b.id !== book.id)
+        }
+      }))
+    } else if (bookShelf === undefined) {
+      this.setState(currentState => ({
+        shelves: {
+          ...currentState.shelves,
+          [newShelf]: [...currentState.shelves[newShelf], book]
+        }
+      }))
+    } else {
+      this.setState(currentState => ({
+        shelves: {
+          ...currentState.shelves,
+          [bookShelf]: currentState.shelves[bookShelf].filter(b => b.id !== book.id),
+          [newShelf]: [...currentState.shelves[newShelf], book]
+        }
+      }))
+    }
   }
 
   render() {
@@ -48,7 +64,7 @@ class BooksApp extends React.Component {
           <ListBooks shelves={this.state.shelves} bookUpdate={this.bookUpdate}/>
         )} />
         <Route path='/search' render={() => (
-          <SearchBooks/>
+          <SearchBooks bookUpdate={this.bookUpdate} />
         )}/>
       </div>
     )
