@@ -1,9 +1,17 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+
 
 class Book extends Component {
+  static propTypes = {
+    book: PropTypes.object.isRequired,
+    bookUpdate: PropTypes.func.isRequired,
+  }
+
   state = {
     value: this.props.book.shelf || "none"
   }
+
   handleChange = (event) => {
     event.preventDefault()
     const value = event.target.value
@@ -12,6 +20,7 @@ class Book extends Component {
       value: value
     })
   }
+
   render() {
     const {book} = this.props
     const imageUrl = book.imageLinks !== undefined ? `url(${book.imageLinks.smallThumbnail})` : ''

@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import BookShelf from './BookShelf'
+import PropTypes from 'prop-types'
 
 
 const ListBooks = (props) => {
@@ -11,11 +12,11 @@ const ListBooks = (props) => {
         <h1>MyReads</h1>
       </div>
       <div className="list-books-content">
-          {Object.keys(shelves).map((shelf_name) => (
-              <div key={shelf_name}>
+          {Object.keys(shelves).map((shelfName) => (
+              <div key={shelfName}>
                 <BookShelf
-                  shelf_name={shelf_name}
-                  books={shelves[shelf_name]}
+                  shelfName={shelfName}
+                  books={shelves[shelfName]}
                   bookUpdate={bookUpdate}
                 />
               </div>
@@ -27,6 +28,11 @@ const ListBooks = (props) => {
       </div>
     </div>
   )
+}
+
+ListBooks.propTypes = {
+  shelves: PropTypes.object.isRequired,
+  bookUpdate: PropTypes.func.isRequired
 }
 
 export default ListBooks
