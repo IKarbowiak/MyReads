@@ -28,14 +28,20 @@ class SearchBooks extends Component {
           this.setState({
             books: booksWithShelves
           })
+        } else {
+          this.clearBooks();
         }
       })
     } else {
-      this.setState({
-        books: []
-      })
+      this.clearBooks();
     }
-  }
+  };
+
+  clearBooks = () => {
+    this.setState({
+      books: []
+    });
+  };
 
   setBooksShelves = (books) => {
     let shelf_name = undefined
