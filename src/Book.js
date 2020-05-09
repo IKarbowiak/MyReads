@@ -2,19 +2,24 @@ import React, {Component} from 'react'
 
 class Book extends Component {
   state = {
-    value: this.props.book.shelf
+    value: this.props.book.shelf || "none"
   }
   handleChange = (event) => {
+    event.preventDefault()
     const value = event.target.value
     this.props.bookUpdate(this.props.book, value)
+    this.setState({
+      value: value
+    })
   }
   render() {
     const {book} = this.props
+    const imageUrl = book.imageLinks !== undefined ? `url(${book.imageLinks.smallThumbnail})` : ''
     return (
       <div className="book">
       <div className="book-top">
         <div
-          className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
+          className="book-cover" style={{ width: 128, height: 193, backgroundImage: imageUrl }}></div>
         <div className="book-shelf-changer">
           <select value={this.state.value} onChange={this.handleChange}>
             <option value="move" disabled>Move to...</option>
@@ -26,7 +31,7 @@ class Book extends Component {
         </div>
       </div>
       <div className="book-title">{book.title}</div>
-      <div className="book-authors">{book.authors.join(", ")}</div>
+      <div className="book-authors">{book.authors !== undefined ? book.authors.join(", ") : ""}</div>
     </div>
     )
   }

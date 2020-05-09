@@ -16,11 +16,13 @@ class SearchBooks extends Component {
       searchValue: value
     })
     if (value) {
-      BooksAPI.search(event.target.value).then((books) => {
-        console.log('search', books)
-        this.setState({
-          books: books
-        })
+      BooksAPI.search(value).then((books) => {
+        if (!('error' in books)) {
+          const booksWithShelves = this.setBooksShelves(books)
+          this.setState({
+            books: booksWithShelves
+          })
+        }
       })
     } else {
       this.setState({
@@ -28,6 +30,22 @@ class SearchBooks extends Component {
       })
     }
   }
+
+  setBooksShelves = (books) => {
+    let shelf_name = undefined
+    const shelves = this.props.shelves
+    books.forEach(book => {
+      shelf_name = undefined
+      Object.keys(shelves).forEach(shelf => {
+        if (shelves[shelf].some(b => b.id === book.id)){
+          shelf_name = shelf
+        }
+      })
+      book.shelf = shelf_name
+    })
+    return books
+  }
+
   render() {
     const {bookUpdate} = this.props
     return (

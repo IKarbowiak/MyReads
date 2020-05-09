@@ -14,7 +14,6 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       const shelves = {};
-      console.log('shelves', shelves);
       books.forEach(book => {
         if (book.shelf in shelves){
           shelves[book.shelf].push(book)
@@ -64,7 +63,7 @@ class BooksApp extends React.Component {
           <ListBooks shelves={this.state.shelves} bookUpdate={this.bookUpdate}/>
         )} />
         <Route path='/search' render={() => (
-          <SearchBooks bookUpdate={this.bookUpdate} />
+          <SearchBooks bookUpdate={this.bookUpdate} shelves={this.state.shelves}/>
         )}/>
       </div>
     )
